@@ -1,192 +1,203 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kim Petras | DETOUR 2026</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Space+Grotesk:wght@300..700&display=swap">
-    <style>
-        :root {
-            --mac-glass: rgba(255, 255, 255, 0.08);
-            --mac-border: rgba(255, 255, 255, 0.15);
-            --detour-accent: #ff0055; /* Saturated Era Pink */
-            --bg-dark: #050505;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MySpace - Kim Petras (DETOUR)</title>
+  <style>
+    /* ── BASE STYLES ─────────────────────────── */
+    body {
+      background-color: #000000;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 256px;
+      color: #FFFFFF;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11px;
+      margin-top: 50px;
+    }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            background-color: var(--bg-dark);
-            color: #fff;
-            font-family: 'Inter', sans-serif;
-            overflow-x: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+    a { color: #003399; font-weight: bold; text-decoration: none; }
+    a:hover { text-decoration: underline; color: #cc0000; }
 
-        /* 2026 Bento Grid Container */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: auto auto;
-            gap: 20px;
-            max-width: 1200px;
-            width: 95%;
-            padding: 40px;
-        }
+    /* ── CONTAINER ─────────────────────────── */
+    .myspace-container {
+      width: 800px;
+      margin: 0 auto;
+      background-color: #FFFFFF;
+      border: 2px solid #003399;
+      padding: 20px;
+      color: #333;
+    }
 
-        .card {
-            background: var(--mac-glass);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid var(--mac-border);
-            border-radius: 32px; /* Smooth 2026 corners */
-            overflow: hidden;
-            position: relative;
-            transition: transform 0.4s cubic-bezier(0.2, 0, 0.2, 1);
-        }
+    /* ── TOP NAV (Old School) ──────────────── */
+    .top-nav {
+      background: #003399;
+      color: white;
+      padding: 5px;
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
 
-        .card:hover {
-            transform: scale(1.02);
-            border-color: var(--detour-accent);
-        }
+    /* ── LAYOUT GRID ────────────────────────── */
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 20px;
+    }
 
-        /* Hero Countdown Card */
-        .countdown-card {
-            grid-column: span 3;
-            grid-row: span 1;
-            padding: 60px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            background: linear-gradient(135deg, rgba(255,0,85,0.1) 0%, rgba(0,0,0,0) 100%);
-        }
+    /* ── LEFT COLUMN ────────────────────────── */
+    .profile-left h1 { font-size: 18px; margin-bottom: 10px; }
+    .main-photo { width: 100%; border: 1px solid #ccc; margin-bottom: 10px; }
+    
+    .contact-box {
+      border: 2px solid #003399;
+      padding: 10px;
+      margin-top: 15px;
+    }
+    .contact-box h2 { 
+        background: #6699cc; 
+        color: white; 
+        font-size: 12px; 
+        padding: 3px; 
+        margin: -10px -10px 10px -10px;
+    }
 
-        .countdown-timer {
-            display: flex;
-            gap: 30px;
-            font-family: 'Space Grotesk', sans-serif;
-            margin-top: 20px;
-        }
+    /* ── RIGHT COLUMN ───────────────────────── */
+    .countdown-section {
+        border: 1px solid #ff00ff;
+        padding: 10px;
+        text-align: center;
+        background: #fff0f5;
+        margin-bottom: 20px;
+    }
+    .countdown-section h2 { color: #ff00ff; font-family: "Courier New", monospace; }
+    #countdown-timer { font-size: 24px; font-weight: bold; color: #ff00ff; }
 
-        .time-unit {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    .blurbs-box, .friend-space {
+      border: 1px solid #003399;
+      margin-bottom: 20px;
+    }
+    .blurbs-box h2, .friend-space h2 {
+      background: #6699cc;
+      color: #ffffff;
+      padding: 5px;
+      font-size: 13px;
+    }
+    .content-inner { padding: 10px; }
 
-        .time-unit span:first-child {
-            font-size: 5rem;
-            font-weight: 700;
-            letter-spacing: -3px;
-        }
+    /* ── TABLE FOR SINGLES (Classic Friend Grid Style) ── */
+    .friend-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      text-align: center;
+    }
+    .friend-grid img { width: 80px; height: 80px; border: 1px solid #000; }
+    .friend-name { font-size: 10px; display: block; margin-top: 4px; }
 
-        .time-unit span:last-child {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            opacity: 0.6;
-        }
-
-        /* Image Cards - Artistically Plastered */
-        .img-card { grid-column: span 1; }
-        .img-card-tall { grid-row: span 2; }
-        
-        .card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            filter: grayscale(20%) contrast(110%);
-        }
-
-        .album-title {
-            font-size: 1.2rem;
-            font-weight: 300;
-            letter-spacing: 10px;
-            text-transform: uppercase;
-            color: var(--detour-accent);
-            margin-bottom: 10px;
-        }
-
-        h1 {
-            font-size: 4.5rem;
-            font-weight: 900;
-            line-height: 0.9;
-            margin-bottom: 20px;
-        }
-
-        /* Mobile Optimization */
-        @media (max-width: 900px) {
-            .grid-container { grid-template-columns: 1fr; }
-            .countdown-card { grid-column: span 1; }
-            .time-unit span:first-child { font-size: 3rem; }
-        }
-    </style>
+    .marquee-text {
+      background: #ffff00;
+      color: #ff0000;
+      font-weight: bold;
+      padding: 5px;
+      border: 1px dashed #ff0000;
+      margin-bottom: 15px;
+    }
+  </style>
 </head>
 <body>
 
-    <div class="grid-container">
-        <div class="card countdown-card">
-            <p class="album-title">Kim Petras</p>
-            <h1>DETOUR</h1>
-            <div class="countdown-timer" id="timer">
-                <div class="time-unit"><span id="days">00</span><span>Days</span></div>
-                <div class="time-unit"><span id="hours">00</span><span>Hrs</span></div>
-                <div class="time-unit"><span id="mins">00</span><span>Min</span></div>
-                <div class="time-unit"><span id="secs">00</span><span>Sec</span></div>
-            </div>
-        </div>
-
-        <div class="card img-card">
-            <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?auto=format&fit=crop&q=80&w=600" alt="Kim Petras Detour Era Visual">
-        </div>
-
-        <div class="card img-card-tall">
-            <img src="https://images.unsplash.com/photo-1550684848-fac1c5b4e853?auto=format&fit=crop&q=80&w=600" alt="Kim Petras Detour Fashion">
-        </div>
-
-        <div class="card img-card">
-            <img src="https://images.unsplash.com/photo-1574169208507-84376144848b?auto=format&fit=crop&q=80&w=600" alt="Detour Aesthetic">
-        </div>
-
-        <div class="card" style="grid-column: span 2; padding: 30px; display: flex; align-items: center; justify-content: space-between;">
-            <div>
-                <p style="opacity: 0.5; font-size: 0.8rem;">RELEASE DATE</p>
-                <p style="font-weight: 600;">MAY 29, 2026 | 12:00 PM EST</p>
-            </div>
-            <button style="background: white; color: black; border: none; padding: 12px 24px; border-radius: 100px; font-weight: 600; cursor: pointer;">PRE-SAVE NOW</button>
-        </div>
+  <div class="myspace-container">
+    <div class="top-nav">
+      MySpace.com | Home | Browse | Search | Invite | Film | Mail | Blog | Favorites | Forum | Groups | Events | Videos | Music
     </div>
 
-    <script>
-        // Set target date: May 29, 2026, 12:00:00 PM EST
-        // Note: 12 PM EST is UTC-5 (or UTC-4 if Daylight Savings is active)
-        const targetDate = new Date("May 29, 2026 12:00:00 EST").getTime();
+    <div class="marquee-text">
+        <marquee>PRE-SAVE DETOUR NOW!! DROPPING MAY 29, 2026. XOXO KIM</marquee>
+    </div>
 
-        const updateTimer = () => {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
+    <div class="profile-grid">
+      
+      <div class="profile-left">
+        <h1>Kim Petras</h1>
+        <img src="https://cdn.sanity.io/images/0m1p5xal/production/cf3299b19fd5dc8c6e128343feb4df723e6a9846-1500x1500.png" class="main-photo" alt="Kim">
+        <p>"Detour is the era."</p>
+        <p>Female<br>23 years old<br>BERLIN, GERMANY</p>
+        <p>Last Login: <span id="current-date"></span></p>
 
-            const d = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const s = Math.floor((distance % (1000 * 60)) / 1000);
+        <div class="contact-box">
+          <h2>Contacting Kim Petras</h2>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 5px; font-size: 10px;">
+            <a href="#">Send Message</a>
+            <a href="#">Forward to Friend</a>
+            <a href="#">Add to Friends</a>
+            <a href="#">Add to Favorites</a>
+            <a href="#">Instant Message</a>
+            <a href="#">Block User</a>
+          </div>
+        </div>
+      </div>
 
-            document.getElementById("days").innerText = d.toString().padStart(2, '0');
-            document.getElementById("hours").innerText = h.toString().padStart(2, '0');
-            document.getElementById("mins").innerText = m.toString().padStart(2, '0');
-            document.getElementById("secs").innerText = s.toString().padStart(2, '0');
+      <div class="profile-right">
+        
+        <div class="countdown-section">
+            <h2>✦ DETOUR COUNTDOWN ✦</h2>
+            <div id="countdown-timer">00:00:00:00</div>
+            <p style="font-size: 9px; margin-top: 5px;">MAY 29, 2026 @ 12:00 PM EST</p>
+        </div>
 
-            if (distance < 0) {
-                clearInterval(interval);
-                document.getElementById("timer").innerHTML = "ALBUM OUT NOW";
-            }
-        };
+        <div class="blurbs-box">
+          <h2>Kim Petras's Blurbs</h2>
+          <div class="content-inner">
+            <p><b style="color: #ff00ff;">About me:</b></p>
+            <p>Welcome to the <i>Detour</i> era. High fashion, cinematic sound, and pure pop. Don't forget to follow me on Instagram and check the official site!</p>
+            
+            <p><b style="color: #ff00ff;">Who I'd like to meet:</b></p>
+            <p>Mr. Producer, people with a Need For Speed, and anyone who likes a Pop Sound.</p>
+          </div>
+        </div>
 
-        const interval = setInterval(updateTimer, 1000);
-        updateTimer();
-    </script>
+        <div class="friend-space">
+          <h2>Kim Petras's Top Singles (The "Top 9")</h2>
+          <div class="content-inner friend-grid">
+            <div><img src="https://cdn.sanity.io/images/0m1p5xal/production/cf3299b19fd5dc8c6e128343feb4df723e6a9846-1500x1500.png"><span class="friend-name">Polo</span></div>
+            <div><img src="https://cdn.sanity.io/images/0m1p5xal/production/2ecec6cde5b945b7847af21ffb97a07704ea3585-1500x1500.png"><span class="friend-name">Freak It</span></div>
+            <div><img src="https://cdn.sanity.io/images/0m1p5xal/production/b5b414f3928b8ceb556e054163e10820e81f741f-1500x1500.png"><span class="friend-name">I Like Ur Look</span></div>
+            <div><img src="https://cdn.sanity.io/images/0m1p5xal/production/259adb9391fc700815d74d60cd57f7f8762de90a-1500x1500.png"><span class="friend-name">Pop Sound</span></div>
+            <div><img src="https://cdn.sanity.io/images/0m1p5xal/production/bc24d39dbce88e47af47fe6d292c6a9be77919ca-1500x1500.png"><span class="friend-name">Need For Speed</span></div>
+            <div><img src="https://cdn.sanity.io/images/0m1p5xal/production/64f98cb696b66204bd171152f414f63f00488cb2-1500x1500.png"><span class="friend-name">Mr. Producer</span></div>
+            <div><img src="https://cdn.sanity.io/images/0m1p5xal/production/b73d5e1740af059cf643a6cb3120c245debcf63c-1500x1500.png"><span class="friend-name">Cha Cha</span></div>
+            <div><img src="https://cdn.sanity.io/images/0m1p5xal/production/f939fd5d6314408c0bde5a0c48faf28745928419-1500x1500.png"><span class="friend-name">Get Some</span></div>
+            <div><img src="https://cdn.sanity.io/images/0m1p5xal/production/9c94522fde0ed39a8d0aac65803224107eb84262-1500x1500.png"><span class="friend-name">Jeep</span></div>
+          </div>
+          <div style="text-align: right; padding: 5px;"><a href="#">View All Singles</a></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const TARGET = new Date('2026-05-29T12:00:00-05:00').getTime();
+    function pad(n) { return String(Math.max(0, n)).padStart(2, '0'); }
+
+    function tick() {
+      const diff = TARGET - Date.now();
+      if (diff <= 0) {
+        document.getElementById('countdown-timer').textContent = 'OUT NOW!';
+        return;
+      }
+      const d = pad(Math.floor(diff / 86400000));
+      const h = pad(Math.floor(diff % 86400000 / 3600000));
+      const m = pad(Math.floor(diff % 3600000 / 60000));
+      const s = pad(Math.floor(diff % 60000 / 1000));
+      document.getElementById('countdown-timer').textContent = `${d}:${h}:${m}:${s}`;
+    }
+    setInterval(tick, 1000);
+    tick();
+
+    document.getElementById('current-date').textContent = new Date().toLocaleDateString();
+  </script>
 </body>
 </html>
