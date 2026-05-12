@@ -5,31 +5,60 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>MySpace - Kim Petras (DETOUR)</title>
   <style>
-    /* ── BASE STYLES ─────────────────────────── */
+    /* ── DRIPPING GOLD BACKGROUND ──────────────── */
     body {
-      background-color: #000000;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-      background-size: 256px;
-      color: #FFFFFF;
+      background-color: #000;
+      background-image: 
+        linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+        url('https://www.transparenttextures.com/patterns/black-linen.png');
+      margin: 0;
+      padding-top: 50px;
       font-family: Arial, Helvetica, sans-serif;
       font-size: 11px;
-      margin-top: 50px;
+      overflow-x: hidden;
     }
 
-    a { color: #003399; font-weight: bold; text-decoration: none; }
-    a:hover { text-decoration: underline; color: #cc0000; }
+    /* Animated Gold Drip Effect */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(180deg, 
+        rgba(212, 175, 55, 0.4) 0%, 
+        rgba(212, 175, 55, 0) 30%);
+      pointer-events: none;
+      z-index: -1;
+    }
 
-    /* ── CONTAINER ─────────────────────────── */
+    /* ── SPARKLE CURSOR STYLES ─────────────────── */
+    .sparkle {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: gold;
+      box-shadow: 0 0 10px 2px white;
+      pointer-events: none;
+      z-index: 9999;
+      animation: sparkle-anim 0.8s linear forwards;
+    }
+
+    @keyframes sparkle-anim {
+      0% { transform: scale(1); opacity: 1; }
+      100% { transform: scale(0); opacity: 0; }
+    }
+
+    /* ── MYSPACE CONTAINER ─────────────────────── */
     .myspace-container {
       width: 800px;
-      margin: 0 auto;
+      margin: 0 auto 50px auto;
       background-color: #FFFFFF;
       border: 2px solid #003399;
       padding: 20px;
       color: #333;
+      position: relative;
     }
 
-    /* ── TOP NAV ───────────────────────────── */
     .top-nav {
       background: #003399;
       color: white;
@@ -39,14 +68,12 @@
       font-weight: bold;
     }
 
-    /* ── LAYOUT GRID ────────────────────────── */
     .profile-grid {
       display: grid;
       grid-template-columns: 300px 1fr;
       gap: 20px;
     }
 
-    /* ── LEFT COLUMN ────────────────────────── */
     .profile-left h1 { font-size: 18px; margin-bottom: 10px; }
     .main-photo { width: 100%; border: 1px solid #ccc; margin-bottom: 10px; }
     
@@ -63,16 +90,15 @@
         margin: -10px -10px 10px -10px;
     }
 
-    /* ── RIGHT COLUMN ───────────────────────── */
     .countdown-section {
-        border: 1px solid #ff00ff;
+        border: 1px solid #d4af37;
         padding: 10px;
         text-align: center;
-        background: #fff0f5;
+        background: #fffdf0;
         margin-bottom: 20px;
     }
-    .countdown-section h2 { color: #ff00ff; font-family: "Courier New", monospace; }
-    #countdown-timer { font-size: 24px; font-weight: bold; color: #ff00ff; }
+    .countdown-section h2 { color: #b8860b; font-family: "Courier New", monospace; }
+    #countdown-timer { font-size: 24px; font-weight: bold; color: #d4af37; }
 
     .blurbs-box, .friend-space {
       border: 1px solid #003399;
@@ -86,22 +112,28 @@
     }
     .content-inner { padding: 10px; }
 
-    /* ── SINGLES GRID (Top 9) ──────────────── */
+    /* ── TOP 9 SINGLES GRID ───────────────────── */
     .friend-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
+      gap: 15px;
       text-align: center;
     }
-    .friend-grid img { width: 80px; height: 80px; border: 1px solid #000; }
-    .friend-name { font-size: 10px; display: block; margin-top: 4px; }
+    .friend-grid a { text-decoration: none; display: block; }
+    .friend-grid img { 
+      width: 80px; height: 80px; 
+      border: 1px solid #000;
+      transition: transform 0.2s;
+    }
+    .friend-grid img:hover { transform: scale(1.1); border-color: #d4af37; }
+    .friend-name { font-size: 10px; color: #003399; display: block; margin-top: 4px; }
 
     .marquee-text {
-      background: #ffff00;
-      color: #ff0000;
+      background: #d4af37;
+      color: #000;
       font-weight: bold;
       padding: 5px;
-      border: 1px dashed #ff0000;
+      border: 1px dashed #000;
       margin-bottom: 15px;
     }
   </style>
@@ -118,10 +150,9 @@
     </div>
 
     <div class="profile-grid">
-      
       <div class="profile-left">
         <h1>Kim Petras</h1>
-        <img src="https://pbs.twimg.com/media/HGR1_bjWIAAJCVK.jpg" class="main-photo" alt="Kim">
+        <img src="https://cdn.sanity.io/images/0m1p5xal/production/cf3299b19fd5dc8c6e128343feb4df723e6a9846-1500x1500.png" class="main-photo" alt="Kim">
         <p>"Detour is the era."</p>
         <p>Female<br>33 years old<br>BERLIN, GERMANY</p>
         <p>Last Login: <span id="current-date"></span></p>
@@ -140,56 +171,64 @@
       </div>
 
       <div class="profile-right">
-        
         <div class="countdown-section">
             <h2>✦ DETOUR COUNTDOWN ✦</h2>
             <div id="countdown-timer">00:00:00:00</div>
             <p style="font-size: 9px; margin-top: 5px;">MAY 29, 2026 @ 12:00 PM EST</p>
         </div>
 
-        <div class="blurbs-box">
-          <h2>Kim Petras's Blurbs</h2>
-          <div class="content-inner">
-            <p><b style="color: #ff00ff;">About me:</b></p>
-            <p>Welcome to the <i>Detour</i> era. High fashion, cinematic sound, and pure pop. Don't forget to follow me on Instagram and check the official site!</p>
-            
-            <p><b style="color: #ff00ff;">Who I'd like to meet:</b></p>
-            <p>Mr. Producer, people with a Need For Speed, and anyone who likes a Pop Sound.</p>
-          </div>
-        </div>
-
         <div class="friend-space">
           <h2>Kim Petras's Singles (Release Order)</h2>
           <div class="content-inner friend-grid">
-            <div><img src="https://cdn.sanity.io/images/0m1p5xal/production/cf3299b19fd5dc8c6e128343feb4df723e6a9846-1500x1500.png"><span class="friend-name">Polo (6/27)</span></div>
-            <div><img src="https://cdn.sanity.io/images/0m1p5xal/production/2ecec6cde5b945b7847af21ffb97a07704ea3585-1500x1500.png"><span class="friend-name">Freak It (7/25)</span></div>
-            <div><img src="https://cdn.sanity.io/images/0m1p5xal/production/b5b414f3928b8ceb556e054163e10820e81f741f-1500x1500.png"><span class="friend-name">I Like Ur Look (10/14)</span></div>
-            
-            <div><img src="https://cdn.sanity.io/images/0m1p5xal/production/259adb9391fc700815d74d60cd57f7f8762de90a-1500x1500.png"><span class="friend-name">Pop Sound (2/10)</span></div>
-            <div><img src="https://cdn.sanity.io/images/0m1p5xal/production/64f98cb696b66204bd171152f414f63f00488cb2-1500x1500.png"><span class="friend-name">Mr. Producer (2/17)</span></div>
-            <div><img src="https://cdn.sanity.io/images/0m1p5xal/production/b73d5e1740af059cf643a6cb3120c245debcf63c-1500x1500.png"><span class="friend-name">Cha Cha (2/24)</span></div>
-            
-            <div><img src="https://cdn.sanity.io/images/0m1p5xal/production/f939fd5d6314408c0bde5a0c48faf28745928419-1500x1500.png"><span class="friend-name">Get Some (3/3)</span></div>
-            <div><img src="https://cdn.sanity.io/images/0m1p5xal/production/bc24d39dbce88e47af47fe6d292c6a9be77919ca-1500x1500.png"><span class="friend-name">Need For Speed (4/22)</span></div>
-            <div><img src="https://cdn.sanity.io/images/0m1p5xal/production/9c94522fde0ed39a8d0aac65803224107eb84262-1500x1500.png"><span class="friend-name">Jeep (5/6)</span></div>
+            <a href="https://www.youtube.com/watch?v=NuAU3sbzbBo" target="_blank">
+              <img src="https://cdn.sanity.io/images/0m1p5xal/production/cf3299b19fd5dc8c6e128343feb4df723e6a9846-1500x1500.png">
+              <span class="friend-name">Polo</span>
+            </a>
+            <a href="https://www.youtube.com/watch?v=wl2ig2D61mc" target="_blank">
+              <img src="https://cdn.sanity.io/images/0m1p5xal/production/2ecec6cde5b945b7847af21ffb97a07704ea3585-1500x1500.png">
+              <span class="friend-name">Freak It</span>
+            </a>
+            <a href="https://www.youtube.com/watch?v=-3xzlfVhsAQ" target="_blank">
+              <img src="https://cdn.sanity.io/images/0m1p5xal/production/b5b414f3928b8ceb556e054163e10820e81f741f-1500x1500.png">
+              <span class="friend-name">I Like Ur Look</span>
+            </a>
+            <a href="https://www.youtube.com/watch?v=Cqka2P3x_2E" target="_blank">
+              <img src="https://cdn.sanity.io/images/0m1p5xal/production/259adb9391fc700815d74d60cd57f7f8762de90a-1500x1500.png">
+              <span class="friend-name">Pop Sound</span>
+            </a>
+            <a href="https://www.youtube.com/watch?v=2WDUJFxL3pg" target="_blank">
+              <img src="https://cdn.sanity.io/images/0m1p5xal/production/64f98cb696b66204bd171152f414f63f00488cb2-1500x1500.png">
+              <span class="friend-name">Mr. Producer</span>
+            </a>
+            <a href="https://www.youtube.com/watch?v=opkMJjp40oY" target="_blank">
+              <img src="https://cdn.sanity.io/images/0m1p5xal/production/b73d5e1740af059cf643a6cb3120c245debcf63c-1500x1500.png">
+              <span class="friend-name">Cha Cha</span>
+            </a>
+            <a href="https://www.youtube.com/watch?v=G9kJ9t8kfH4" target="_blank">
+              <img src="https://cdn.sanity.io/images/0m1p5xal/production/f939fd5d6314408c0bde5a0c48faf28745928419-1500x1500.png">
+              <span class="friend-name">Get Some</span>
+            </a>
+            <a href="https://www.youtube.com/watch?v=DeSYhcQ_98U" target="_blank">
+              <img src="https://cdn.sanity.io/images/0m1p5xal/production/bc24d39dbce88e47af47fe6d292c6a9be77919ca-1500x1500.png">
+              <span class="friend-name">Need For Speed</span>
+            </a>
+            <a href="https://www.youtube.com/watch?v=V_-rrLLkxas" target="_blank">
+              <img src="https://cdn.sanity.io/images/0m1p5xal/production/9c94522fde0ed39a8d0aac65803224107eb84262-1500x1500.png">
+              <span class="friend-name">Jeep</span>
+            </a>
           </div>
-          <div style="text-align: right; padding: 5px;"><a href="#">View Discography</a></div>
         </div>
-
       </div>
     </div>
   </div>
 
   <script>
+    // ── COUNTDOWN LOGIC ──
     const TARGET = new Date('2026-05-29T12:00:00-05:00').getTime();
     function pad(n) { return String(Math.max(0, n)).padStart(2, '0'); }
-
     function tick() {
       const diff = TARGET - Date.now();
-      if (diff <= 0) {
-        document.getElementById('countdown-timer').textContent = 'OUT NOW!';
-        return;
-      }
+      if (diff <= 0) { document.getElementById('countdown-timer').textContent = 'OUT NOW!'; return; }
       const d = pad(Math.floor(diff / 86400000));
       const h = pad(Math.floor(diff % 86400000 / 3600000));
       const m = pad(Math.floor(diff % 3600000 / 60000));
@@ -198,6 +237,16 @@
     }
     setInterval(tick, 1000);
     tick();
+
+    // ── SPARKLE CURSOR LOGIC ──
+    document.addEventListener('mousemove', (e) => {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.left = e.pageX + 'px';
+      sparkle.style.top = e.pageY + 'px';
+      document.body.appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 800);
+    });
 
     document.getElementById('current-date').textContent = new Date().toLocaleDateString();
   </script>
