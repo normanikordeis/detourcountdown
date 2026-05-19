@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kim Petras — Need For Speed</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f0ede8;
+  }
+
+  .player {
+    position: fixed;
+    left: 16px;
+    top: 16px;
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.34);
+    backdrop-filter: blur(9.2px);
+    -webkit-backdrop-filter: blur(9.2px);
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  .player-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-radius: 16px 16px 0 0;
+    padding: 12px;
+  }
+
+  .album-art {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    background: #000;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .album-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .track-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .track-title {
+    font-size: 14px;
+    font-weight: 500;
+    color: #000;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .track-artist {
+    font-size: 12px;
+    color: #555;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+
+  .btn-play {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(100,100,100,0.4);
+    background: linear-gradient(to bottom, #e0e0e0, #aaa);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+    color: #222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+
+  .btn-play:hover { opacity: 0.85; }
+  .btn-play:active { background: linear-gradient(to bottom, #bbb, #888); }
+
+  .btn-play svg {
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
+  }
+
+  .progress-bar-wrap {
+    padding: 0 12px 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .progress-track {
+    width: 100%;
+    height: 4px;
+    background: rgba(0,0,0,0.15);
+    border-radius: 2px;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: #000;
+    border-radius: 2px;
+    width: 0%;
+    transition: width 0.2s linear;
+    pointer-events: none;
+  }
+
+  .time-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #666;
+  }
+
+  .volume-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px 12px 12px;
+    border-top: 1px solid rgba(255,255,255,0.55);
+  }
+
+  .volume-row svg {
+    width: 16px;
+    height: 16px;
+    fill: #777;
+    flex-shrink: 0;
+  }
+
+  input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    flex: 1;
+    height: 6px;
+    border-radius: 3px;
+    background: rgba(0,0,0,0.2);
+    outline: none;
+    cursor: pointer;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #000;
+    cursor: pointer;
+  }
+
+  .countdown-strip {
+    background: rgba(0,0,0,0.06);
+    border-top: 1px solid rgba(255,255,255,0.55);
+    padding: 10px 12px;
+    text-align: center;
+  }
+
+  .countdown-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 6px;
+  }
+
+  .countdown-digits {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    align-items: baseline;
+  }
+
+  .cd-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .cd-num {
+    font-size: 22px;
+    font-weight: 500;
+    color: #111;
+    line-height: 1;
+    min-width: 32px;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cd-lbl {
+    font-size: 9px;
+    color: #888;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .cd-sep {
+    font-size: 18px;
+    color: #aaa;
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+
+  .drop-date {
+    font-size: 11px;
+    color: #999;
+    margin-top: 6px;
+  }
+</style>
+</head>
+<body>
+
+<div class="player" role="region" aria-label="Audio player">
+
+  <div class="player-top">
+    <div class="album-art" id="albumArt">
+      <img src="https://cdn.sanity.io/images/0m1p5xal/production/5a8c44a8258b896f2280a3a0051b4838ca71c4c2-1936x1936.jpg" alt="Need For Speed album art" onerror="this.style.display='none'; this.parentElement.innerHTML='🎵'"/>
+    </div>
+
+    <div class="track-info">
+      <p class="track-title">Need For Speed</p>
+      <p class="track-artist">Kim Petras</p>
+    </div>
+
+    <div class="controls">
+      <button class="btn-play" id="playBtn" aria-label="Play">
+        <svg id="playIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="progress-bar-wrap">
+    <div class="progress-track" id="progressTrack" role="slider" aria-label="Seek" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="time-row">
+      <span id="currentTime">0:00</span>
+      <span id="duration">--:--</span>
+    </div>
+  </div>
+
+  <div class="volume-row">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
+    <input type="range" min="0" max="1" step="0.01" value="1" id="volumeSlider" aria-label="Volume"/>
+  </div>
+
+  <div class="countdown-strip">
+    <p class="countdown-label">Detour — dropping in</p>
+    <div class="countdown-digits">
+      <div class="cd-unit"><span class="cd-num" id="cdDays">--</span><span class="cd-lbl">days</span></div>
+      <span class="cd-sep">:</span>
+      <div class="cd-unit"><span class="cd-num" id="cdHours">--</span><span class="cd-lbl">hrs</span></div>
+      <span class="cd-sep">:</span>
+      <div class="cd-unit"><span class="cd-num" id="cdMins">--</span><span class="cd-lbl">min</span></div>
+      <span class="cd-sep">:</span>
+      <div class="cd-unit"><span class="cd-num" id="cdSecs">--</span><span class="cd-lbl">sec</span></div>
+    </div>
+    <p class="drop-date">May 29, 2026</p>
+  </div>
+</div>
+
+<audio id="audio" preload="auto">
+  <source src="https://www.youtube.com/watch?v=3xwk3Fb_Uis" type="audio/mpeg"/>
+</audio>
+
+<script>
+  const YOUTUBE_ID = '3xwk3Fb_Uis';
+
+  const playBtn = document.getElementById('playBtn');
+  const playIcon = document.getElementById('playIcon');
+  const progressFill = document.getElementById('progressFill');
+  const progressTrack = document.getElementById('progressTrack');
+  const currentTimeEl = document.getElementById('currentTime');
+  const durationEl = document.getElementById('duration');
+  const volumeSlider = document.getElementById('volumeSlider');
+
+  const PLAY_PATH = 'M8 5v14l11-7z';
+  const PAUSE_PATH = 'M6 19h4V5H6v14zm8-14v14h4V5h-4z';
+
+  let player = null;
+  let playerReady = false;
+  let isPlaying = false;
+  let progressInterval = null;
+
+  function fmt(s) {
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return m + ':' + (sec < 10 ? '0' : '') + sec;
+  }
+
+  function updateProgress() {
+    if (!player || !playerReady) return;
+    try {
+      const cur = player.getCurrentTime();
+      const dur = player.getDuration();
+      if (dur > 0) {
+        progressFill.style.width = (cur / dur * 100) + '%';
+        currentTimeEl.textContent = fmt(cur);
+        durationEl.textContent = fmt(dur);
+        progressTrack.setAttribute('aria-valuenow', Math.round(cur / dur * 100));
+      }
+    } catch(e) {}
+  }
+
+  function setPlayState(playing) {
+    isPlaying = playing;
+    playIcon.setAttribute('d', playing ? PAUSE_PATH : PLAY_PATH);
+    playBtn.setAttribute('aria-label', playing ? 'Pause' : 'Play');
+    if (playing) {
+      progressInterval = setInterval(updateProgress, 300);
+    } else {
+      clearInterval(progressInterval);
+    }
+  }
+
+  window.onYouTubeIframeAPIReady = function() {
+    const container = document.createElement('div');
+    container.id = 'yt-frame';
+    container.style.cssText = 'position:absolute;left:-9999px;top:-9999px;width:1px;height:1px;';
+    document.body.appendChild(container);
+
+    player = new YT.Player('yt-frame', {
+      videoId: YOUTUBE_ID,
+      playerVars: { autoplay: 1, controls: 0, disablekb: 1 },
+      events: {
+        onReady: function(e) {
+          playerReady = true;
+          e.target.setVolume(100);
+          e.target.playVideo();
+        },
+        onStateChange: function(e) {
+          if (e.data === YT.PlayerState.PLAYING) setPlayState(true);
+          else if (e.data === YT.PlayerState.PAUSED || e.data === YT.PlayerState.ENDED) setPlayState(false);
+        }
+      }
+    });
+  };
+
+  const ytScript = document.createElement('script');
+  ytScript.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(ytScript);
+
+  playBtn.addEventListener('click', function() {
+    if (!player || !playerReady) return;
+    if (isPlaying) player.pauseVideo();
+    else player.playVideo();
+  });
+
+  progressTrack.addEventListener('click', function(e) {
+    if (!player || !playerReady) return;
+    const rect = progressTrack.getBoundingClientRect();
+    const pct = (e.clientX - rect.left) / rect.width;
+    const dur = player.getDuration();
+    if (dur > 0) player.seekTo(pct * dur, true);
+  });
+
+  volumeSlider.addEventListener('input', function() {
+    if (!player || !playerReady) return;
+    player.setVolume(Math.round(this.value * 100));
+  });
+
+  const TARGET = new Date('2026-05-29T00:00:00');
+
+  function updateCountdown() {
+    const now = new Date();
+    const diff = TARGET - now;
+    if (diff <= 0) {
+      document.getElementById('cdDays').textContent = '00';
+      document.getElementById('cdHours').textContent = '00';
+      document.getElementById('cdMins').textContent = '00';
+      document.getElementById('cdSecs').textContent = '00';
+      return;
+    }
+    const days = Math.floor(diff / 86400000);
+    const hrs  = Math.floor((diff % 86400000) / 3600000);
+    const mins = Math.floor((diff % 3600000) / 60000);
+    const secs = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cdDays').textContent  = String(days).padStart(2,'0');
+    document.getElementById('cdHours').textContent = String(hrs).padStart(2,'0');
+    document.getElementById('cdMins').textContent  = String(mins).padStart(2,'0');
+    document.getElementById('cdSecs').textContent  = String(secs).padStart(2,'0');
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+</script>
+</body>
+</html>
